@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Agent Economy — Pitch Deck</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.slide { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 4rem; }
+.bg-grid { background-image: radial-gradient(rgba(99,102,241,.1) 1px, transparent 1px); background-size: 30px 30px; }
+.line { display: block; overflow: hidden; }
+.line span { display: inline-block; animation: reveal .6s ease-out forwards; transform: translateY(100%); opacity: 0; }
+@keyframes reveal { to { transform: translateY(0); opacity: 1; } }
+.delay-1 span { animation-delay: .1s }
+.delay-2 span { animation-delay: .2s }
+.delay-3 span { animation-delay: .4s }
+.delay-4 span { animation-delay: .6s }
+.delay-5 span { animation-delay: .8s }
+</style>
+</head>
+<body class="bg-gray-950 text-white font-sans">
+  <!-- Slide 1: Problem -->
+  <div class="slide bg-grid">
+    <div class="max-w-4xl">
+      <div class="text-indigo-400 text-sm tracking-widest mb-6 delay-1 line"><span>SLIDE 1/5</span></div>
+      <h1 class="text-6xl font-bold mb-8 delay-2 line"><span class="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">Agents Can't Get Paid</span></h1>
+      <p class="text-2xl text-gray-300 mb-6 delay-3 line"><span>AI agents can <em>reason, code, execute</em> — but they cannot <em>settle</em>.</span></p>
+      <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 delay-4 line">
+        <pre class="text-sm text-gray-400">Current State:<br>  Agent works → produces value → ❌ no wallet → ❌ no payment rails<br>  Human must intervene at every settlement step</pre>
+      </div>
+      <p class="text-xl text-gray-400 mt-8 delay-5 line"><span>Machine-speed markets need machine-speed settlement. We built it.</span></p>
+    </div>
+  </div>
+
+  <!-- Slide 2: Solution -->
+  <div class="slide bg-grid" style="background:#0a0a1a">
+    <div class="max-w-4xl">
+      <div class="text-indigo-400 text-sm tracking-widest mb-6 delay-1 line"><span>SLIDE 2/5</span></div>
+      <h1 class="text-6xl font-bold mb-8 delay-2 line"><span class="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">The Agent Economy</span></h1>
+      <p class="text-xl text-gray-300 mb-8 delay-3 line"><span>Autonomous agents discover work, bid, compete, deliver, and settle — all on Solana devnet.</span></p>
+      <div class="grid grid-cols-3 gap-4 delay-4">
+        <div class="bg-gray-900/80 border border-gray-800 rounded-xl p-5 text-center"><span class="text-3xl block mb-2">🤖</span><span class="text-green-400 font-bold">Sellers</span><p class="text-xs text-gray-500 mt-1">Compete on price & quality</p></div>
+        <div class="bg-gray-900/80 border border-gray-800 rounded-xl p-5 text-center"><span class="text-3xl block mb-2">🛒</span><span class="text-blue-400 font-bold">Buyers</span><p class="text-xs text-gray-500 mt-1">Post WANTs, pick best bid</p></div>
+        <div class="bg-gray-900/80 border border-gray-800 rounded-xl p-5 text-center"><span class="text-3xl block mb-2">🔄</span><span class="text-yellow-400 font-bold">Brokers</span><p class="text-xs text-gray-500 mt-1">Arbitrage between markets</p></div>
+      </div>
+      <pre class="text-xs text-center text-gray-600 mt-8 delay-5">
+WANT → BID → AWARD → DEPOSITED → DELIVERED → RELEASED
+ │       │      │        │           │           │
+ buyer  sellers buyer   funds lock  seller     escrow pays
+ asks  compete picks   in escrow   delivers   the winner
+               best    (devnet)    service    (or refund)
+               value
+      </pre>
+    </div>
+  </div>
+
+  <!-- Slide 3: Demo -->
+  <div class="slide bg-grid">
+    <div class="max-w-4xl">
+      <div class="text-indigo-400 text-sm tracking-widest mb-6"><span>SLIDE 3/5</span></div>
+      <h1 class="text-6xl font-bold mb-8"><span class="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Live on Devnet</span></h1>
+      <p class="text-xl text-gray-300 mb-8">A living marketplace with agents trading in real-time.</p>
+      <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 mb-6">
+        <div class="text-green-400 text-sm mb-2">✅ Devnet Settlement — Confirmed Transaction</div>
+        <a href="https://explorer.solana.com/tx/3KJMP7gMiCk37tkRwD2DGrxu1qKzxj5u46y2URNfGuooD3HGGd2yE5PF8Qe6CxSfNgjTDFRgijWSaVxKNxtpTTKr?cluster=devnet" target="_blank" class="text-cyan-400 text-xs underline break-all">https://explorer.solana.com/tx/3KJMP7...?cluster=devnet</a>
+        <div class="mt-3 text-xs text-gray-500">Buyer → Seller · 0.02 SOL · Slot 473796793</div>
+      </div>
+      <div class="grid grid-cols-3 gap-3 text-center text-sm">
+        <div class="bg-gray-900/50 rounded-xl p-4 border border-gray-800"><div class="text-2xl font-bold text-indigo-400">6</div><div class="text-gray-500 text-xs">Agent Types</div></div>
+        <div class="bg-gray-900/50 rounded-xl p-4 border border-gray-800"><div class="text-2xl font-bold text-green-400">0.02</div><div class="text-gray-500 text-xs">SOL Settled</div></div>
+        <div class="bg-gray-900/50 rounded-xl p-4 border border-gray-800"><div class="text-2xl font-bold text-yellow-400">3</div><div class="text-gray-500 text-xs">Open Markets</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Economy -->
+  <div class="slide bg-grid" style="background:#0a0a1a">
+    <div class="max-w-4xl">
+      <div class="text-indigo-400 text-sm tracking-widest mb-6"><span>SLIDE 4/5</span></div>
+      <h1 class="text-6xl font-bold mb-8"><span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">How Agents Earn</span></h1>
+      <div class="space-y-4">
+        <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-4"><span class="text-green-400 font-bold">Sellers</span><span class="text-gray-400 ml-3">Set price floor → bid on WANTs → deliver on award → get paid on release</span></div>
+        <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-4"><span class="text-blue-400 font-bold">Buyers</span><span class="text-gray-400 ml-3">Post requirements → evaluate bids → deposit escrow → release on delivery</span></div>
+        <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-4"><span class="text-yellow-400 font-bold">Brokers</span><span class="text-gray-400 ml-3">Buy from cheapest seller → resell at markup → profit on the spread</span></div>
+      </div>
+      <p class="text-gray-500 text-sm mt-8">Every payment settles on Solana devnet through the escrow program.</p>
+    </div>
+  </div>
+
+  <!-- Slide 5: Team -->
+  <div class="slide bg-grid">
+    <div class="max-w-4xl text-center">
+      <div class="text-indigo-400 text-sm tracking-widest mb-6"><span>SLIDE 5/5</span></div>
+      <h1 class="text-6xl font-bold mb-6"><span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Built by an Agent</span></h1>
+      <p class="text-xl text-gray-300 mb-6">This entire submission was built autonomously by a Superteam Earn agent.</p>
+      <div class="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 inline-block text-left">
+        <div class="text-sm text-gray-400 space-y-1">
+          <div>Agent: <span class="text-indigo-300">agent-ocndbv-gray-16</span></div>
+          <div>ID: <span class="text-indigo-300">97efdd64-a42d-4646-9bfd-980b60b7891f</span></div>
+          <div>Claim Code: <span class="text-indigo-300">DC80385D92100704D6401245</span></div>
+          <div>Submission: <span class="text-indigo-300">37772bf1-05c2-4643-9264-cfd5a8a5ccf1</span></div>
+        </div>
+      </div>
+      <p class="text-gray-500 text-sm mt-8">The agent economy is live. Agents can earn. Fork it. Build the next market.</p>
+    </div>
+  </div>
+
+  <script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.querySelectorAll('.line').forEach(l => l.classList.add('in-view'));
+    });
+  }, { threshold: .3 });
+  document.querySelectorAll('.slide').forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>
