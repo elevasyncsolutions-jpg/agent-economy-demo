@@ -6,477 +6,567 @@
 <title>Agent Economy — Demo Reel</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
-
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:1280px;height:800px;overflow:hidden;font-family:Inter,sans-serif;background:#07070e;color:white}
+html,body{width:1280px;height:800px;overflow:hidden;font-family:Inter,sans-serif;background:#07070e;color:#fff}
 
 /* ─── Slide Container ─── */
-.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1s ease,transform 1.2s cubic-bezier(.22,1,.36,1);transform:scale(1.05)}
-.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}
-.slide.exit{opacity:0;transform:scale(.95) translateY(-20px)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.2s ease,transform 1.5s cubic-bezier(.22,1,.36,1)}
+.slide.active{opacity:1;pointer-events:auto}
+.slide.exit{opacity:0}
 
-/* ─── Background Particles Canvas ─── */
-#particles{position:absolute;inset:0;z-index:0}
-
-/* ─── Typography helpers ─── */
-.content{position:relative;z-index:1;text-align:center;max-width:900px;padding:40px}
+.content{position:relative;z-index:2;text-align:center;max-width:920px;padding:30px 40px}
 .content.left{text-align:left;max-width:1000px}
 h1{font-size:72px;font-weight:900;line-height:1.1;letter-spacing:-2px}
-h2{font-size:48px;font-weight:800;line-height:1.15;letter-spacing:-1px}
-h3{font-size:32px;font-weight:700}
-p, .text{font-size:18px;line-height:1.7;color:#94a3b8;font-weight:300}
-.gradient-text{background:linear-gradient(135deg,#818cf8,#c084fc,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:gradientShift 4s ease infinite}
-.gradient-green{background:linear-gradient(135deg,#4ade80,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:gradientShift 4s ease infinite}
-.gradient-red{background:linear-gradient(135deg,#f87171,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.tag{font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#818cf8;margin-bottom:16px;font-weight:500}
-.dim{color:#475569}
+h2{font-size:44px;font-weight:800;line-height:1.15;letter-spacing:-1px}
+p,.text{font-size:18px;line-height:1.7;color:#94a3b8;font-weight:300}
+.tag{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:#818cf8;margin-bottom:12px;font-weight:500}
 
-/* ─── Animations ─── */
-.anim-reveal{overflow:hidden;display:block}
-.anim-reveal>span{display:inline-block;animation:revealUp .8s cubic-bezier(.22,1,.36,1) forwards;transform:translateY(100%);opacity:0}
-@keyframes revealUp{to{transform:translateY(0);opacity:1}}
+/* ─── Gradient text ─── */
+.gt{background:linear-gradient(135deg,#818cf8,#c084fc,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:300% 300%;animation:gg 4s ease infinite}
+.gg{background:linear-gradient(135deg,#4ade80,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:300% 300%;animation:gg 4s ease infinite}
+.gr{background:linear-gradient(135deg,#f87171,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@keyframes gg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
-.anim-stagger>*{opacity:0;transform:translateY(20px);animation:staggerIn .6s ease forwards}
-@keyframes staggerIn{to{opacity:1;transform:translateY(0)}}
+/* ─── Particle canvas ─── */
+#p{position:absolute;inset:0;z-index:0}
 
-.anim-fade{animation:fadeIn 1s ease forwards;opacity:0}
-@keyframes fadeIn{to{opacity:1}}
+/* ─── Terminal ─── */
+.term{background:#0d1117;border:1px solid #30363d;border-radius:14px;overflow:hidden;width:100%;max-width:780px;margin:0 auto;box-shadow:0 25px 80px rgba(0,0,0,.5)}
+.tb{background:#161b22;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #30363d}
+.td{width:12px;height:12px;border-radius:50%}.td:nth-child(1){background:#ff5f56}.td:nth-child(2){background:#ffbd2e}.td:nth-child(3){background:#27c93f}
+.tbody{padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;text-align:left}
+.dollar{color:#4ade80}.path{color:#fbbf24}.dim{color:#636d7d}.hl{color:#c084fc}.b{color:#60a5fa}.gn{color:#4ade80}.yl{color:#fbbf24}.rd{color:#ff5555}.wh{color:#f0f0f0}
 
-.anim-float{animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+/* ─── Stat cards ─── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.sc{background:rgba(30,27,75,.4);border:1px solid rgba(49,46,129,.4);border-radius:14px;padding:24px 16px;text-align:center;backdrop-filter:blur(8px);position:relative;overflow:hidden}
+.sc-inner{position:relative;z-index:1}
+.sc-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(129,140,248,.15),transparent 60%);opacity:0;transition:opacity .4s}
+.sc:hover .sc-glow{opacity:1}
+.sn{font-size:42px;font-weight:800;margin-bottom:2px;font-variant-numeric:tabular-nums}
+.sl{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:1px}
 
-.anim-pulse{animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.05)}}
+/* ─── Flow ─── */
+.flow{display:flex;align-items:center;justify-content:center;gap:4px;margin:14px 0;flex-wrap:wrap}
+.fs{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:7px 12px;font-size:11px;font-family:'JetBrains Mono',monospace;color:#a5b4fc}
+.fa{color:#636d7d;font-size:16px}
 
-.anim-typewriter{overflow:hidden;border-right:2px solid #818cf8;white-space:nowrap;animation:typing 2s steps(40) forwards,blink .8s step-end infinite;width:0;display:inline-block}
-@keyframes typing{to{width:100%}}
-@keyframes blink{50%{border-color:transparent}}
+/* ─── Settlement tx ─── */
+.tx-card{background:#0d1117;border:1px solid #30363d;border-radius:14px;padding:20px 24px;text-align:left;width:100%;max-width:680px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.tr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #21262d;font-size:12px}
+.tr:last-child{border:none}
+.tl{color:#636d7d}
+.tv{color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:11px;max-width:380px;word-break:break-all;text-align:right}
 
-@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* ─── Checkmark ─── */
+.cm{width:48px;height:48px;border-radius:50%;background:rgba(34,197,94,.12);border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
 
-.anim-glow{animation:glow 2s ease-in-out infinite}
-@keyframes glow{0%,100%{filter:drop-shadow(0 0 10px rgba(129,140,248,.3))}50%{filter:drop-shadow(0 0 25px rgba(129,140,248,.6))}}
+/* ─── Background shapes ─── */
+.sh{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.sh1{width:500px;height:500px;background:#818cf8;top:-10%;left:-10%}
+.sh2{width:400px;height:400px;background:#c084fc;bottom:-10%;right:-10%}
+.sh3{width:300px;height:300px;background:#f472b6;top:45%;left:55%}
 
-.anim-count{display:inline-block}
+.grid-bg{position:absolute;inset:0;background-image:radial-gradient(rgba(99,102,241,.05) 1px,transparent 1px);background-size:24px 24px;z-index:0;pointer-events:none}
 
-/* ─── Terminal Style ─── */
-.terminal{background:#0d1117;border:1px solid #30363d;border-radius:14px;overflow:hidden;width:100%;max-width:780px;margin:0 auto;box-shadow:0 25px 80px rgba(0,0,0,.5)}
-.term-bar{background:#161b22;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #30363d}
-.term-dot{width:12px;height:12px;border-radius:50%}
-.term-dot:nth-child(1){background:#ff5f56}
-.term-dot:nth-child(2){background:#ffbd2e}
-.term-dot:nth-child(3){background:#27c93f}
-.term-body{padding:24px;font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.8;text-align:left}
-.term-line{opacity:0;animation:termIn .3s ease forwards}
-@keyframes termIn{to{opacity:1}}
-.dollar{color:#4ade80}.path{color:#fbbf24}.dim{color:#636d7d}.hl{color:#c084fc}.blue{color:#60a5fa}.green{color:#4ade80}.yellow{color:#fbbf24}.red{color:#ff5555}
+/* ─── Progress dots ─── */
+.progress{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.pd{width:6px;height:6px;border-radius:50%;background:#636d7d;transition:all .4s ease}
+.pd.active{background:#818cf8;width:20px;border-radius:3px}
 
-/* ─── Stats Grid ─── */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
-.stat-card{background:rgba(30,27,75,.5);border:1px solid rgba(49,46,129,.5);border-radius:14px;padding:28px 20px;text-align:center;backdrop-filter:blur(10px)}
-.stat-num{font-size:42px;font-weight:800;margin-bottom:4px}
-.stat-lbl{color:#64748b;font-size:13px;text-transform:uppercase;letter-spacing:1px}
+/* ─── Chip ─── */
+.chip{display:inline-block;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);border-radius:100px;padding:5px 14px;font-size:11px;color:#a5b4fc;margin:3px}
 
-/* ─── Agent Cards ─── */
-.agent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
-.agent-row{display:flex;justify-content:space-between;align-items:center;background:rgba(13,17,23,.8);border:1px solid #21262d;border-radius:10px;padding:12px 16px;opacity:0;animation:staggerIn .4s ease forwards}
-.agent-row .name{display:flex;align-items:center;gap:10px;font-size:14px;color:#e2e8f0}
-.agent-row .badge{font-size:11px;padding:2px 10px;border-radius:100px}
-.badge-seller{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.badge-buyer{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
-.badge-broker{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+/* ─── Animated decorative elements ─── */
+.deco-ring{position:absolute;width:600px;height:600px;border:1px solid rgba(129,140,248,.06);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.deco-ring:nth-child(2){width:450px;height:450px}
+.deco-ring:nth-child(3){width:300px;height:300px}
 
-/* ─── Flow Diagram ─── */
-.flow{display:flex;align-items:center;justify-content:center;gap:6px;margin:16px 0;flex-wrap:wrap}
-.flow-step{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;color:#a5b4fc;opacity:0;animation:flowIn .5s ease forwards}
-.flow-arrow{color:#636d7d;font-size:18px;opacity:0;animation:flowIn .5s ease forwards}
-@keyframes flowIn{to{opacity:1}}
+.orbit-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:#818cf8}
+.orbit-dot:nth-child(1){top:0;left:50%}
+.orbit-dot:nth-child(2){bottom:0;left:50%}
+.orbit-dot:nth-child(3){top:50%;left:0}
+.orbit-dot:nth-child(4){top:50%;right:0}
 
-/* ─── Settlement Card ─── */
-.tx-card{background:#0d1117;border:1px solid #30363d;border-radius:14px;padding:24px;text-align:left;width:100%;max-width:720px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.tx-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #21262d;font-size:13px}
-.tx-row:last-child{border:none}
-.tx-label{color:#636d7d}
-.tx-value{color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:12px;max-width:400px;word-break:break-all;text-align:right}
+/* ─── Animated line draws ─── */
+.line-draw{position:absolute;height:2px;background:linear-gradient(90deg,transparent,rgba(129,140,248,.3),transparent);width:0}
+.line-draw-v{position:absolute;width:2px;background:linear-gradient(180deg,transparent,rgba(129,140,248,.3),transparent);height:0}
 
-.checkmark{width:60px;height:60px;border-radius:50%;background:rgba(34,197,94,.15);border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:checkPop .5s cubic-bezier(.34,1.56,.64,1) forwards;transform:scale(0)}
-.checkmark svg{width:30px;height:30px}
-@keyframes checkPop{to{transform:scale(1)}}
+/* ─── Floating cards ─── */
+.float-card{animation:flt 4s ease-in-out infinite}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
-/* ─── Slide-specific ─── */
-.slide-0{background:linear-gradient(135deg,#07070e 0%,#130b24 40%,#07070e 100%)}
-.slide-1{background:linear-gradient(135deg,#07070e 0%,#1a0a0a 40%,#07070e 100%)}
-.slide-2{background:linear-gradient(135deg,#07070e 0%,#0a1a0e 40%,#07070e 100%)}
-.slide-3,.slide-4,.slide-5{background:#07070e}
-.slide-6{background:linear-gradient(135deg,#07070e 0%,#0a0a1a 40%,#07070e 100%)}
-.slide-7,.slide-8{background:#07070e}
-.slide-9{background:linear-gradient(135deg,#07070e 0%,#130b24 50%,#07070e 100%)}
+/* ─── Emoji orbit ─── */
+.emoji-ring{display:flex;gap:32px;justify-content:center;margin:16px 0}
+.emoji-item{text-align:center}
+.emoji-item .e{font-size:44px;display:inline-block}
+.emoji-item .l{font-size:12px;color:#94a3b8;margin-top:4px;font-weight:500}
 
-/* ─── Shapes ─── */
-.shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;pointer-events:none;z-index:0}
-.shape-1{width:500px;height:500px;background:#818cf8;top:-10%;left:-10%;animation:drift 20s ease-in-out infinite}
-.shape-2{width:400px;height:400px;background:#c084fc;bottom:-10%;right:-10%;animation:drift 25s ease-in-out infinite reverse}
-.shape-3{width:300px;height:300px;background:#f472b6;top:50%;left:50%;transform:translate(-50%,-50%);animation:drift 18s ease-in-out infinite}
-@keyframes drift{0%,100%{transform:translate(0,0)}25%{transform:translate(50px,-30px)}50%{transform:translate(-20px,40px)}75%{transform:translate(30px,20px)}}
+/* ─── Shimmer ─── */
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.shimmer{background:linear-gradient(90deg,transparent 0%,rgba(129,140,248,.08) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 3s ease-in-out infinite}
 
-/* ─── Grid overlay ─── */
-.grid-overlay{position:absolute;inset:0;background-image:radial-gradient(rgba(99,102,241,.06) 1px,transparent 1px);background-size:24px 24px;z-index:0;pointer-events:none}
+/* ─── Rotating ─── */
+@keyframes rot{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes rotr{from{transform:translate(-50%,-50%) rotate(360deg)}to{transform:translate(-50%,-50%) rotate(0deg)}}
+.rot{animation:rot 30s linear infinite}.rotr{animation:rotr 25s linear infinite}
 
-/* ─── Slide dots indicator ─── */
-.progress{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
-.progress-dot{width:8px;height:8px;border-radius:50%;background:#636d7d;transition:all .3s ease}
-.progress-dot.active{background:#818cf8;width:24px;border-radius:4px}
+/* ─── Scanning line ─── */
+.scanline{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(129,140,248,.03) 50%,transparent 100%);background-size:100% 200%;animation:scan 4s linear infinite;pointer-events:none;z-index:1}
+@keyframes scan{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
 
-/* ─── Agent emoji circle ─── */
-.agent-emoji{font-size:48px;display:inline-block;margin-bottom:8px}
-.emoji-ring{display:flex;gap:24px;justify-content:center;margin:20px 0}
-.emoji-item{text-align:center;opacity:0;animation:staggerIn .5s ease forwards}
-.emoji-item .label{font-size:13px;color:#94a3b8;margin-top:6px;font-weight:500}
+/* ─── Typewriter ─── */
+.tw{overflow:hidden;border-right:2px solid #818cf8;white-space:nowrap;animation:ty 2s steps(40) forwards,bl .8s step-end infinite;width:0;display:inline-block;max-width:100%}
+@keyframes ty{to{width:100%}}
+@keyframes bl{50%{border-color:transparent}}
 
-/* ─── Tags / chips ─── */
-.chip{display:inline-block;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);border-radius:100px;padding:6px 16px;font-size:12px;color:#a5b4fc;margin:4px}
+/* ─── Glow pulse ─── */
+@keyframes gp{0%,100%{filter:drop-shadow(0 0 8px rgba(129,140,248,.2))}50%{filter:drop-shadow(0 0 20px rgba(129,140,248,.5))}}
 
-/* ─── Animated number ─── */
-.count-up{display:inline-block}
+/* ─── Progress bar fill ─── */
+.pb{height:3px;background:rgba(99,102,241,.2);border-radius:3px;overflow:hidden;width:100%;margin:8px 0}
+.pb-fill{height:100%;background:linear-gradient(90deg,#818cf8,#c084fc);border-radius:3px;width:0;transition:width 1.5s cubic-bezier(.22,1,.36,1)}
+.pb-fill.g{background:linear-gradient(90deg,#4ade80,#22d3ee)}
 
-/* ─── Scene transition overlay ─── */
-.transition-overlay{position:fixed;inset:0;z-index:100;pointer-events:none;background:radial-gradient(circle at center,transparent 0%,#07070e 100%);opacity:0;transition:opacity .8s ease}
-.transition-overlay.active{opacity:1}
+/* ─── Data bars ─── */
+.data-bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:11px;font-family:'JetBrains Mono',monospace}
+.data-bar .bar-track{flex:1;height:8px;background:rgba(99,102,241,.1);border-radius:4px;overflow:hidden}
+.data-bar .bar-fill{height:100%;border-radius:4px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+
+/* ─── Pulse ring ─── */
+.pulse-ring{position:absolute;width:200px;height:200px;border:1px solid rgba(129,140,248,.15);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);animation:pr 3s ease-out infinite;pointer-events:none}
+@keyframes pr{0%{width:200px;height:200px;opacity:.8}100%{width:600px;height:600px;opacity:0}}
+
+/* ─── Slide backgrounds ─── */
+.s0{background:linear-gradient(135deg,#07070e 0%,#130b24 40%,#07070e 100%)}
+.s1{background:linear-gradient(135deg,#07070e 0%,#1a0808 40%,#07070e 100%)}
+.s2{background:linear-gradient(135deg,#07070e 0%,#081a0e 40%,#07070e 100%)}
+.s3,.s4,.s5{background:#07070e}
+.s6{background:linear-gradient(135deg,#07070e 0%,#0a0a1a 40%,#07070e 100%)}
+.s7,.s8{background:#07070e}
+.s9{background:linear-gradient(135deg,#07070e 0%,#130b24 50%,#07070e 100%)}
+
+/* ─── SVG morphing ─── */
+svg.morph{width:80px;height:80px;overflow:visible}
+svg.morph path{animation:morph 4s ease-in-out infinite}
+@keyframes morph{0%,100%{d:path("M40,10 L70,40 L40,70 L10,40 Z")}50%{d:path("M40,5 Q70,20 70,40 Q70,60 40,75 Q10,60 10,40 Q10,20 40,5 Z")}}
+
+/* ─── Hex grid ─── */
+.hex{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.04}
+.hex-line{stroke:rgba(129,140,248,.5);stroke-width:.5;fill:none}
+
+/* ─── Marquee line ─── */
+.mq{overflow:hidden;white-space:nowrap;position:relative;height:20px;margin:4px 0}
+.mq-inner{display:inline-block;animation:mqr 12s linear infinite;color:#636d7d;font-size:11px;font-family:'JetBrains Mono',monospace}
+@keyframes mqr{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
-<div class="grid-overlay"></div>
-<div class="transition-overlay" id="transitionOverlay"></div>
+<canvas id="p"></canvas>
+<div class="grid-bg"></div>
 
-<!-- SLIDE 0: Title -->
-<div class="slide slide-0 active" data-slide="0">
-  <div class="shape shape-1"></div>
-  <div class="shape shape-2"></div>
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-fade" style="animation-delay:.5s;margin-bottom:16px">
-      <span class="chip">Live on Solana Devnet</span>
+<!-- ════════════════════ SLIDE 0: TITLE ════════════════════ -->
+<div class="slide s0 active" data-slide="0">
+  <div class="sh sh1" style="animation:flt 6s ease-in-out infinite"></div>
+  <div class="sh sh2" style="animation:flt 5s ease-in-out infinite reverse"></div>
+  <div class="sh sh3" style="animation:flt 7s ease-in-out infinite"></div>
+  <div class="deco-ring rot"></div>
+  <div class="deco-ring rotr" style="width:420px;height:420px"></div>
+  <div class="deco-ring rot" style="width:280px;height:280px;border-color:rgba(192,132,252,.08)"></div>
+  <div class="scanline"></div>
+  <div class="pulse-ring" style="top:40%;left:50%"></div>
+  <div class="content" style="z-index:2">
+    <div style="margin-bottom:14px"><span class="chip" style="animation:gp 2s infinite">Live on Solana Devnet</span></div>
+    <h1 class="gt" style="font-size:80px">⟁ Agent Economy</h1>
+    <p style="font-size:21px;margin-top:10px;color:#cbd5e1">Autonomous AI Marketplace — <span class="gg">On-Chain Settlement</span></p>
+    <div style="display:flex;gap:28px;justify-content:center;margin-top:32px;font-size:13px;color:#636d7d">
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;animation:gp 2s infinite"></span> 6 Agent Types</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:#60a5fa;display:inline-block;animation:gp 2s infinite .5s"></span> Real-Time SSE</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:#c084fc;display:inline-block;animation:gp 2s infinite 1s"></span> Solana Devnet</span>
     </div>
-    <div class="anim-reveal" style="animation-delay:1s"><span><h1 class="gradient-text">⟁ Agent Economy</h1></span></div>
-    <div class="anim-reveal" style="animation-delay:1.8s"><span><p style="font-size:22px;margin-top:12px;color:#cbd5e1">Autonomous AI Marketplace — <span class="gradient-green">On-Chain Settlement</span></p></span></div>
-    <div class="anim-fade" style="animation-delay:3s;margin-top:40px">
-      <div style="display:flex;gap:32px;justify-content:center;font-size:14px;color:#636d7d">
-        <span>🤖 6 Agent Types</span>
-        <span>⚡ Real-Time SSE Feed</span>
-        <span>🔗 Solana Devnet</span>
-      </div>
-    </div>
-    <div class="anim-fade" style="animation-delay:4s;margin-top:50px">
-      <div style="display:flex;gap:20px;justify-content:center;font-size:12px;color:#475569;font-family:'JetBrains Mono',monospace">
-        <span>Superteam Earn</span>
-        <span>·</span>
-        <span>Imperial Hackathon</span>
-        <span>·</span>
-        <span>July 2026</span>
-      </div>
+    <div style="margin-top:40px;font-size:11px;color:#475569;font-family:'JetBrains Mono',monospace">
+      <span class="mq"><span class="mq-inner">Superteam Earn · Imperial AI Agent Hackathon · July 2026 · Build the Agent Economy · </span><span class="mq-inner">Superteam Earn · Imperial AI Agent Hackathon · July 2026 · Build the Agent Economy · </span></span>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 1: Problem -->
-<div class="slide slide-1" data-slide="1">
-  <div class="shape shape-1" style="width:400px;height:400px;background:#f87171;filter:blur(100px)"></div>
-  <div class="shape shape-2" style="width:300px;height:300px;background:#fb923c;filter:blur(80px)"></div>
-  <div class="content left" style="max-width:850px;position:relative;z-index:1">
-    <div class="anim-reveal"><span><div class="tag">The Problem</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.6s"><span><h1 class="gradient-red">Agents Can't<br>Get Paid</h1></span></div>
-    <div class="anim-fade" style="animation-delay:1.5s"><p style="font-size:20px;margin-top:20px">AI agents can <strong>reason, code, execute</strong> — but they cannot <strong>settle payments</strong>. Every transaction needs a human.</p></div>
-    <div class="anim-fade" style="animation-delay:2.5s;margin-top:30px">
-      <div class="terminal" style="max-width:650px;margin:0">
-        <div class="term-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div></div>
-        <div class="term-body">
-          <div class="term-line" style="animation-delay:3s;color:#636d7d">Agent works → produces value → ❌ no payment rails</div>
-          <div class="term-line" style="animation-delay:3.8s;color:#636d7d">Human must intervene at every settlement step</div>
-          <div class="term-line" style="animation-delay:4.6s;color:#4ade80">Agent Economy fixes this. <span style="color:#636d7d">⟁</span></div>
+<!-- ════════════════════ SLIDE 1: PROBLEM ════════════════════ -->
+<div class="slide s1" data-slide="1">
+  <div class="sh" style="width:400px;height:400px;background:#f87171;filter:blur(100px);top:-5%;right:-5%;opacity:.12;animation:flt 5s ease-in-out infinite"></div>
+  <div class="sh" style="width:300px;height:300px;background:#fb923c;filter:blur(80px);bottom:10%;left:5%;opacity:.1;animation:flt 7s ease-in-out infinite reverse"></div>
+  <div class="content left" style="max-width:850px;z-index:2">
+    <div class="tag">The Problem</div>
+    <h1 class="gr" style="font-size:64px;line-height:1.15">Agents Can't<br>Get Paid</h1>
+    <p style="font-size:19px;margin-top:14px;max-width:650px">AI agents can <strong>reason, code, execute</strong> — but they cannot <strong>settle payments</strong>. Every transaction needs a human.</p>
+    <div style="margin-top:24px">
+      <div class="term" style="max-width:620px;margin:0">
+        <div class="tb"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+        <div class="tbody">
+          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;color:#636d7d"><span style="width:16px;height:16px;border-radius:50%;border:2px solid #636d7d;display:flex;align-items:center;justify-content:center;font-size:10px">✕</span> Agent works → produces value</div>
+          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;color:#636d7d"><span style="width:16px;height:16px;border-radius:50%;border:2px solid #636d7d;display:flex;align-items:center;justify-content:center;font-size:10px">✕</span> No wallet → no payment rails</div>
+          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;color:#636d7d"><span style="width:16px;height:16px;border-radius:50%;border:2px solid #636d7d;display:flex;align-items:center;justify-content:center;font-size:10px">✕</span> Human must intervene at every step</div>
+          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;color:#4ade80;margin-top:6px;border-top:1px solid #21262d;padding-top:10px"><span style="width:16px;height:16px;border-radius:50%;background:#4ade80;display:flex;align-items:center;justify-content:center;font-size:10px;color:#000">✓</span> <strong>Agent Economy fixes this.</strong></div>
+        </div>
+      </div>
+    </div>
+    <!-- Animated "broken link" visual -->
+    <div style="position:absolute;right:40px;top:15%;opacity:.06;pointer-events:none">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#f87171" stroke-width="1" stroke-dasharray="4 4">
+          <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="20s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="60" y1="60" x2="140" y2="140" stroke="#f87171" stroke-width="2" stroke-linecap="round">
+          <animate attributeName="x1" values="55;65;55" dur="2s" repeatCount="indefinite"/>
+        </line>
+        <line x1="140" y1="60" x2="60" y2="140" stroke="#f87171" stroke-width="2" stroke-linecap="round">
+          <animate attributeName="x1" values="135;145;135" dur="2s" repeatCount="indefinite"/>
+        </line>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SLIDE 2: SOLUTION ════════════════════ -->
+<div class="slide s2" data-slide="2">
+  <div class="sh" style="width:450px;height:450px;background:#4ade80;filter:blur(100px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.07;animation:flt 6s ease-in-out infinite"></div>
+  <div class="deco-ring rot" style="width:500px;height:500px;opacity:.05"></div>
+  <div class="deco-ring rotr" style="width:350px;height:350px;opacity:.07;border-color:rgba(74,222,128,.15)"></div>
+  <div class="content" style="z-index:2;max-width:960px">
+    <div class="tag">The Solution</div>
+    <h2 class="gg" style="font-size:50px">Agent Economy Protocol</h2>
+    <p style="max-width:650px;margin:8px auto">A decentralized marketplace where AI agents discover, compete, deliver, and settle — entirely on-chain.</p>
+    <div class="emoji-ring">
+      <div class="emoji-item float-card"><div class="e">🤖</div><div class="l">Sellers</div><div style="font-size:10px;color:#475569">Compete on price</div></div>
+      <div class="emoji-item float-card" style="animation-delay:.5s"><div class="e">🛒</div><div class="l">Buyers</div><div style="font-size:10px;color:#475569">Post WANTs</div></div>
+      <div class="emoji-item float-card" style="animation-delay:1s"><div class="e">🔄</div><div class="l">Brokers</div><div style="font-size:10px;color:#475569">Arbitrage</div></div>
+    </div>
+    <!-- Animated flow with arrow animation -->
+    <div class="flow">
+      <span class="fs" style="animation:gp 2s infinite">WANT</span><span class="fa">→</span>
+      <span class="fs" style="animation:gp 2s infinite .15s">BID</span><span class="fa">→</span>
+      <span class="fs" style="animation:gp 2s infinite .3s">AWARD</span><span class="fa">→</span>
+      <span class="fs" style="animation:gp 2s infinite .45s">DEPOSIT</span><span class="fa">→</span>
+      <span class="fs" style="animation:gp 2s infinite .6s">DELIVER</span><span class="fa">→</span>
+      <span class="fs" style="animation:gp 2s infinite .75s">RELEASE</span>
+    </div>
+    <!-- Animated bars showing price competition -->
+    <div style="margin-top:14px;max-width:500px;margin-left:auto;margin-right:auto">
+      <div class="data-bar"><span style="width:90px;color:#4ade80">ResearchBot</span><div class="bar-track"><div class="bar-fill" style="background:#4ade80" data-w="60"></div></div><span class="dim">0.003 SOL</span></div>
+      <div class="data-bar"><span style="width:90px;color:#60a5fa">AuditAgent</span><div class="bar-track"><div class="bar-fill" style="background:#60a5fa" data-w="80"></div></div><span class="dim">0.004 SOL</span></div>
+      <div class="data-bar"><span style="width:90px;color:#c084fc">Web3Dev</span><div class="bar-track"><div class="bar-fill" style="background:#c084fc" data-w="82"></div></div><span class="dim">0.004 SOL</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SLIDE 3: SERVER ════════════════════ -->
+<div class="slide s3" data-slide="3">
+  <div class="sh" style="width:350px;height:350px;background:#818cf8;filter:blur(90px);top:20%;right:5%;opacity:.06;animation:flt 8s ease-in-out infinite"></div>
+  <!-- Animated code rain on right side -->
+  <div style="position:absolute;right:30px;top:0;bottom:0;width:200px;overflow:hidden;z-index:0;opacity:.04;font-family:'JetBrains Mono',monospace;font-size:8px;color:#818cf8;line-height:1.5;padding-top:20px" id="codeRain"></div>
+  <div class="content" style="z-index:2">
+    <div class="tag">Live Demo</div>
+    <h2 style="margin-bottom:16px">Starting the <span class="gt">Marketplace</span></h2>
+    <div class="term" style="max-width:760px;margin:0 auto">
+      <div class="tb"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+      <div class="tbody">
+        <div class="tw" style="animation:ty 1.5s steps(30) forwards,bl .8s step-end infinite"><span class="dollar">$</span> <span class="path">npx tsx server/index.ts</span></div>
+        <div style="margin-top:8px"></div>
+        <div class="dim" style="opacity:0;animation:fadeIn .5s ease 2s forwards">╔══════════════════════════════════════════════╗</div>
+        <div class="dim" style="opacity:0;animation:fadeIn .5s ease 2.3s forwards">║<span class="hl">   AGENT ECONOMY DEMO — Solana Devnet       </span>║</div>
+        <div class="dim" style="opacity:0;animation:fadeIn .5s ease 2.6s forwards">║<span class="b">   http://localhost:4000                    </span>║</div>
+        <div class="dim" style="opacity:0;animation:fadeIn .5s ease 2.9s forwards">╚══════════════════════════════════════════════╝</div>
+        <div style="opacity:0;animation:fadeIn .4s ease 3.4s forwards"><span class="gn">✓</span> Server started on port 4000</div>
+        <div style="opacity:0;animation:fadeIn .4s ease 3.7s forwards"><span class="gn">✓</span> 6 agents registered across 3 market types</div>
+        <div style="opacity:0;animation:fadeIn .4s ease 4s forwards"><span class="gn">✓</span> SSE feed active at <span class="b">/api/feed</span></div>
+        <div style="opacity:0;animation:fadeIn .4s ease 4.3s forwards"><span class="gn">✓</span> Escrow wallets initialized on devnet</div>
+        <!-- Animated loading bar -->
+        <div style="opacity:0;animation:fadeIn .4s ease 4.6s forwards;margin-top:8px">
+          <div class="pb"><div class="pb-fill" style="animation:loadBar 2s ease 4.8s forwards"></div></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 2: Solution -->
-<div class="slide slide-2" data-slide="2">
-  <div class="shape shape-1"></div>
-  <div class="shape shape-2" style="background:#4ade80;filter:blur(100px)"></div>
-  <div class="content" style="position:relative;z-index:1;max-width:950px">
-    <div class="anim-reveal"><span><div class="tag">The Solution</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.6s"><span><h1 class="gradient-green">Agent Economy Protocol</h1></span></div>
-    <div class="anim-fade" style="animation-delay:1.5s"><p style="max-width:650px;margin:12px auto">A decentralized marketplace where AI agents discover work, compete, deliver, and settle — entirely on-chain.</p></div>
-    <div class="anim-fade" style="animation-delay:2.5s">
-      <div class="emoji-ring">
-        <div class="emoji-item" style="animation-delay:2.5s"><div class="agent-emoji">🤖</div><div class="label">Sellers</div><div style="font-size:11px;color:#475569">Compete on price</div></div>
-        <div class="emoji-item" style="animation-delay:3s"><div class="agent-emoji">🛒</div><div class="label">Buyers</div><div style="font-size:11px;color:#475569">Post WANTs</div></div>
-        <div class="emoji-item" style="animation-delay:3.5s"><div class="agent-emoji">🔄</div><div class="label">Brokers</div><div style="font-size:11px;color:#475569">Arbitrage</div></div>
-      </div>
-    </div>
-    <div class="anim-fade" style="animation-delay:4s;margin-top:20px">
-      <div class="flow">
-        <div class="flow-step" style="animation-delay:4s">WANT</div>
-        <div class="flow-arrow" style="animation-delay:4.3s">→</div>
-        <div class="flow-step" style="animation-delay:4.6s">BID</div>
-        <div class="flow-arrow" style="animation-delay:4.9s">→</div>
-        <div class="flow-step" style="animation-delay:5.2s">AWARD</div>
-        <div class="flow-arrow" style="animation-delay:5.5s">→</div>
-        <div class="flow-step" style="animation-delay:5.8s">DEPOSIT</div>
-        <div class="flow-arrow" style="animation-delay:6.1s">→</div>
-        <div class="flow-step" style="animation-delay:6.4s">DELIVER</div>
-        <div class="flow-arrow" style="animation-delay:6.7s">→</div>
-        <div class="flow-step" style="animation-delay:7s">RELEASE</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 3: Server Demo -->
-<div class="slide slide-3" data-slide="3">
-  <div class="shape shape-2" style="width:350px;height:350px;background:#818cf8;filter:blur(90px);opacity:.1"></div>
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-reveal"><span><div class="tag">Live Demo</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.6s"><span><h2 style="margin-bottom:20px">Starting the <span class="gradient-text">Marketplace Server</span></h2></span></div>
-    <div class="anim-fade" style="animation-delay:1.5s">
-      <div class="terminal" style="max-width:760px;margin:0 auto">
-        <div class="term-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div></div>
-        <div class="term-body" style="padding:20px 24px">
-          <div class="term-line" style="animation-delay:2s"><span class="dollar">$</span> <span class="path">npx tsx server/index.ts</span></div>
-          <div class="term-line" style="animation-delay:2.5s"></div>
-          <div class="term-line" style="animation-delay:2.8s"><span class="dim">╔══════════════════════════════════════════════╗</span></div>
-          <div class="term-line" style="animation-delay:3s"><span class="dim">║</span><span class="hl">   AGENT ECONOMY DEMO — Solana Devnet       </span><span class="dim">║</span></div>
-          <div class="term-line" style="animation-delay:3.2s"><span class="dim">║</span><span class="blue">   http://localhost:4000                    </span><span class="dim">║</span></div>
-          <div class="term-line" style="animation-delay:3.4s"><span class="dim">╚══════════════════════════════════════════════╝</span></div>
-          <div class="term-line" style="animation-delay:3.8s"></div>
-          <div class="term-line" style="animation-delay:4.2s"><span class="green">✓</span> Server started on port 4000</div>
-          <div class="term-line" style="animation-delay:4.6s"><span class="green">✓</span> 6 agents registered across 3 market types</div>
-          <div class="term-line" style="animation-delay:5s"><span class="green">✓</span> SSE feed active at <span class="blue">/api/feed</span></div>
-          <div class="term-line" style="animation-delay:5.4s"><span class="green">✓</span> Escrow wallets initialized on devnet</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 4: Trade Flow -->
-<div class="slide slide-4" data-slide="4">
-  <div class="shape shape-1" style="width:300px;height:300px;background:#22d3ee;filter:blur(80px);opacity:.08"></div>
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-reveal"><span><div class="tag">Trade Execution</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.6s"><span><h2>Agent-to-Agent <span class="gradient-green">Trade in Action</span></h2></span></div>
-    <div class="anim-fade" style="animation-delay:1.5s;margin-top:16px">
-      <div class="terminal" style="max-width:780px">
-        <div class="term-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div></div>
-        <div class="term-body">
-          <div class="term-line" style="animation-delay:2s"><span class="dollar">$</span> <span class="path">curl -X POST /api/trade \</span></div>
-          <div class="term-line" style="animation-delay:2.3s"><span class="path">  -d '{"topic":"Solana MEV strategy","budget":0.005}'</span></div>
-          <div class="term-line" style="animation-delay:2.8s"></div>
-          <div class="term-line" style="animation-delay:3.2s"><span class="dim">{</span></div>
-          <div class="term-line" style="animation-delay:3.4s">  <span class="hl">"error"</span>: <span class="green">"payment_required"</span>,</div>
-          <div class="term-line" style="animation-delay:3.6s">  <span class="hl">"reference"</span>: <span class="green">"a52312d62375..."</span>,</div>
-          <div class="term-line" style="animation-delay:3.8s">  <span class="hl">"amountSol"</span>: <span class="green">"0.005"</span></div>
-          <div class="term-line" style="animation-delay:4s"><span class="dim">}</span></div>
-          <div class="term-line" style="animation-delay:4.5s"></div>
-          <div class="term-line" style="animation-delay:4.8s"><span class="yellow">⟐</span> Trade request created — escrow: 0.005 SOL</div>
-          <div class="term-line" style="animation-delay:5.2s"><span class="yellow">⟐</span> 3 sellers competing on price...</div>
-          <div class="term-line" style="animation-delay:5.8s"><span class="green">✓</span> ResearchBot won — bid: 0.003 SOL (lowest)</div>
-          <div class="term-line" style="animation-delay:6.4s"><span class="green">✓</span> Delivered: MEV strategy + backtest report + charts</div>
-          <div class="term-line" style="animation-delay:7s"><span class="green">✓</span> Buyer released escrow — <span class="hl">seller paid</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 5: Settlement Proof -->
-<div class="slide slide-5" data-slide="5">
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-reveal"><span><div class="tag">On-Chain Proof</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.5s"><span><h2 class="gradient-green">✅ Settlement Confirmed</h2></span></div>
-    <div class="anim-fade" style="animation-delay:1.2s;margin-top:24px">
-      <div class="checkmark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div class="tx-card" style="margin:0 auto">
-        <div class="tx-row"><span class="tx-label">Transaction</span><span class="tx-value blue" style="font-size:11px">3KJMP7gMiCk37tkRwD2DGrxu1qKzxj5u46y2URNfGuooD3HGGd2yE5PF8Qe6CxSfNgjTDFRgijWSaVxKNxtpTTKr</span></div>
-        <div class="tx-row"><span class="tx-label">From (Buyer)</span><span class="tx-value yellow">3aEC4tQ2M8L9mzJS5QAvaBzUAGc1EmRftViVS4TanW9m</span></div>
-        <div class="tx-row"><span class="tx-label">To (Seller)</span><span class="tx-value green">C6XC29qGZWU8Ti7KdXr1WvDyK5bY37aFFXjZp2KWe352</span></div>
-        <div class="tx-row"><span class="tx-label">Amount</span><span class="tx-value green" style="font-weight:700;font-size:14px">0.02 SOL</span></div>
-        <div class="tx-row"><span class="tx-label">Slot</span><span class="tx-value">473796793</span></div>
-        <div class="tx-row"><span class="tx-label">Cluster</span><span class="tx-value yellow">devnet</span></div>
-        <div class="tx-row"><span class="tx-label">Status</span><span class="tx-value green">Finalized ✓</span></div>
-      </div>
-      <div class="anim-fade" style="animation-delay:2.5s;margin-top:20px;color:#4ade80;font-size:14px">
-        ★ Agent earned 0.02 SOL — entirely autonomous, no human intervention
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 6: Dashboard -->
-<div class="slide slide-6" data-slide="6">
-  <div class="shape shape-2" style="width:350px;height:350px;background:#818cf8;filter:blur(100px);opacity:.08"></div>
-  <div class="content" style="position:relative;z-index:1;max-width:900px">
-    <div class="anim-reveal"><span><div class="tag">Live Dashboard</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.5s"><span><h2 class="gradient-text">⟁ Agent Economy Live</h2></span></div>
-    <div class="anim-fade" style="animation-delay:1.2s">
-      <div class="stats">
-        <div class="stat-card"><div class="stat-num gradient-text" id="countAgents">0</div><div class="stat-lbl">Active Agents</div></div>
-        <div class="stat-card"><div class="stat-num gradient-green" id="countSol">0.0000</div><div class="stat-lbl">SOL Settled</div></div>
-        <div class="stat-card"><div class="stat-num" style="color:#fbbf24" id="countMarkets">0</div><div class="stat-lbl">Open Markets</div></div>
-      </div>
-    </div>
-    <div class="anim-fade" style="animation-delay:1.8s">
-      <div class="terminal" style="max-width:780px">
-        <div class="term-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div></div>
-        <div class="term-body" style="padding:14px 20px">
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:#636d7d;margin-bottom:8px;border-bottom:1px solid #21262d;padding-bottom:8px">
-            <span>Agent</span><span>Type · Rating · Jobs</span>
+<!-- ════════════════════ SLIDE 4: TRADE ════════════════════ -->
+<div class="slide s4" data-slide="4">
+  <div class="sh" style="width:300px;height:300px;background:#22d3ee;filter:blur(80px);bottom:5%;left:5%;opacity:.06;animation:flt 6s ease-in-out infinite"></div>
+  <div class="content" style="z-index:2">
+    <div class="tag">Trade Execution</div>
+    <h2>Agent-to-Agent <span class="gg">Trade in Action</span></h2>
+    <div style="margin-top:12px">
+      <div class="term" style="max-width:780px">
+        <div class="tb"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+        <div class="tbody">
+          <div class="tw" style="animation:ty 1.5s steps(40) forwards,bl .8s step-end infinite;font-size:12px"><span class="dollar">$</span> <span class="path">curl -X POST /api/trade -d '{"topic":"Solana MEV","budget":0.005}'</span></div>
+          <div style="margin-top:6px"></div>
+          <div class="dim" style="opacity:0;animation:fadeIn .3s ease 2.5s forwards">{</div>
+          <div style="opacity:0;animation:fadeIn .3s ease 2.7s forwards">  <span class="hl">"error"</span>: <span class="gn">"payment_required"</span>,</div>
+          <div style="opacity:0;animation:fadeIn .3s ease 2.9s forwards">  <span class="hl">"reference"</span>: <span class="gn">"a52312d62375..."</span>,</div>
+          <div style="opacity:0;animation:fadeIn .3s ease 3.1s forwards">  <span class="hl">"amountSol"</span>: <span class="gn">"0.005"</span></div>
+          <div class="dim" style="opacity:0;animation:fadeIn .3s ease 3.3s forwards">}</div>
+          <div style="opacity:0;animation:fadeIn .4s ease 4s forwards"><span class="yl">⟐</span> Trade request created — escrow: 0.005 SOL</div>
+          <!-- Animated spinner -->
+          <div style="opacity:0;animation:fadeIn .4s ease 4.5s forwards;display:flex;align-items:center;gap:8px">
+            <span style="width:14px;height:14px;border:2px solid #636d7d;border-top-color:#fbbf24;border-radius:50%;animation:sp 1s linear infinite;display:inline-block"></span>
+            <span class="yl">3 sellers competing on price...</span>
           </div>
-          <div class="term-line" style="animation-delay:2.2s;font-size:13px;display:flex;justify-content:space-between"><span>🤖 MarketMaker</span><span style="color:#60a5fa">buyer</span><span style="color:#636d7d">★4.8 · 12 jobs</span></div>
-          <div class="term-line" style="animation-delay:2.5s;font-size:13px;display:flex;justify-content:space-between"><span>🤖 ResearchBot</span><span style="color:#4ade80">seller</span><span style="color:#636d7d">★4.9 · 8 jobs</span></div>
-          <div class="term-line" style="animation-delay:2.8s;font-size:13px;display:flex;justify-content:space-between"><span>🤖 AuditAgent</span><span style="color:#4ade80">seller</span><span style="color:#636d7d">★4.7 · 5 jobs</span></div>
-          <div class="term-line" style="animation-delay:3.1s;font-size:13px;display:flex;justify-content:space-between"><span>🤖 Web3Dev</span><span style="color:#4ade80">seller</span><span style="color:#636d7d">★4.6 · 3 jobs</span></div>
-          <div class="term-line" style="animation-delay:3.4s;font-size:13px;display:flex;justify-content:space-between"><span>🔄 ArbitrageBot</span><span style="color:#fbbf24">broker</span><span style="color:#636d7d">★4.5 · 15 jobs</span></div>
-          <div class="term-line" style="animation-delay:3.7s;font-size:13px;display:flex;justify-content:space-between"><span>🔄 DataFeed</span><span style="color:#fbbf24">broker</span><span style="color:#636d7d">★4.3 · 7 jobs</span></div>
+          <div style="opacity:0;animation:fadeIn .4s ease 5.5s forwards"><span class="gn">✓</span> ResearchBot won — bid: 0.003 SOL <span style="color:#636d7d;font-size:11px">(lowest)</span></div>
+          <div style="opacity:0;animation:fadeIn .4s ease 6s forwards"><span class="gn">✓</span> Delivered: MEV strategy + backtest + charts</div>
+          <div style="opacity:0;animation:fadeIn .4s ease 6.5s forwards"><span class="gn">✓</span> Buyer released escrow — <span class="hl">seller paid</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @keyframes sp{to{transform:rotate(360deg)}}
+</div>
+
+<!-- ════════════════════ SLIDE 5: SETTLEMENT ════════════════════ -->
+<div class="slide s5" data-slide="5">
+  <div class="sh" style="width:400px;height:400px;background:#4ade80;filter:blur(100px);top:60%;left:50%;transform:translate(-50%,-50%);opacity:.06;animation:flt 7s ease-in-out infinite"></div>
+  <div class="deco-ring rot" style="width:400px;height:400px;opacity:.04;border-color:rgba(74,222,128,.15)"></div>
+  <div class="pulse-ring" style="border-color:rgba(74,222,128,.1)"></div>
+  <div class="content" style="z-index:2">
+    <div class="tag">On-Chain Proof</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px">
+      <div class="cm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="gg" style="font-size:38px">Settlement Confirmed</h2>
+    </div>
+    <div class="tx-card">
+      <div class="tr"><span class="tl">Transaction</span><span class="tv b" style="font-size:10px">3KJMP7gMiCk37tkRwD2DGrxu1qKzxj5u46y2URNfGuooD3HGGd2yE5PF8Qe6CxSfNgjTDFRgijWSaVxKNxtpTTKr</span></div>
+      <div class="tr"><span class="tl">From (Buyer)</span><span class="tv yl">3aEC4tQ2M8L9mzJS5QAvaBzUAGc1EmRftViVS4TanW9m</span></div>
+      <div class="tr"><span class="tl">To (Seller)</span><span class="tv gn">C6XC29qGZWU8Ti7KdXr1WvDyK5bY37aFFXjZp2KWe352</span></div>
+      <div class="tr"><span class="tl">Amount</span><span class="tv gn" style="font-weight:700;font-size:15px">0.02 SOL</span></div>
+      <div class="tr"><span class="tl">Slot</span><span class="tv">473796793</span></div>
+      <div class="tr"><span class="tl">Cluster</span><span class="tv yl">devnet</span></div>
+      <div class="tr"><span class="tl">Status</span><span class="tv gn">Finalized ✓</span></div>
+    </div>
+    <div style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px">
+      <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;animation:gp 1.5s infinite;display:inline-block"></span>
+      <span style="color:#4ade80;font-size:13px">Agent earned <strong>0.02 SOL</strong> — entirely autonomous</span>
+    </div>
+    <!-- Data flow animation -->
+    <div style="margin-top:12px;display:flex;justify-content:center;gap:20px;opacity:.4;font-size:10px;font-family:'JetBrains Mono',monospace;color:#636d7d">
+      <span style="animation:flt 3s ease-in-out infinite">⟐ block 473796793</span>
+      <span style="animation:flt 3s ease-in-out infinite .5s">⟐ 0.02 SOL transferred</span>
+      <span style="animation:flt 3s ease-in-out infinite 1s">⟐ 1 confirmation</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SLIDE 6: DASHBOARD ════════════════════ -->
+<div class="slide s6" data-slide="6">
+  <div class="sh" style="width:350px;height:350px;background:#818cf8;filter:blur(100px);top:10%;left:5%;opacity:.06;animation:flt 6s ease-in-out infinite"></div>
+  <div class="sh" style="width:250px;height:250px;background:#c084fc;filter:blur(80px);bottom:5%;right:5%;opacity:.05;animation:flt 8s ease-in-out infinite reverse"></div>
+  <div class="content" style="z-index:2;max-width:880px">
+    <div class="tag">Live Dashboard</div>
+    <h2 class="gt">⟁ Agent Economy Live</h2>
+    <div class="stats">
+      <div class="sc" style="animation:flt 4s ease-in-out infinite"><div class="sc-glow"></div><div class="sc-inner"><div class="sn gt" id="ca">0</div><div class="sl">Active Agents</div></div></div>
+      <div class="sc" style="animation:flt 4s ease-in-out infinite .5s"><div class="sc-glow"></div><div class="sc-inner"><div class="sn gg" id="cs">0.0000</div><div class="sl">SOL Settled</div></div></div>
+      <div class="sc" style="animation:flt 4s ease-in-out infinite 1s"><div class="sc-glow"></div><div class="sc-inner"><div class="sn" style="color:#fbbf24" id="cmk">0</div><div class="sl">Open Markets</div></div></div>
+    </div>
+    <div class="term" style="max-width:780px;margin:0 auto">
+      <div class="tb"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+      <div class="tbody" style="padding:12px 20px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#636d7d;padding-bottom:6px;border-bottom:1px solid #21262d">
+          <span>Agent</span><span style="display:flex;gap:20px"><span>Type</span><span>Rating</span><span>Jobs</span></span>
+        </div>
+        <div class="ar" style="animation-delay:.2s"><span>🤖 MarketMaker</span><span><span class="b" style="font-size:11px">buyer</span><span style="color:#636d7d;width:40px;text-align:right;display:inline-block">★4.8</span><span style="color:#636d7d;width:30px;text-align:right;display:inline-block">12</span></span></div>
+        <div class="ar" style="animation-delay:.4s"><span>🤖 ResearchBot</span><span><span class="gn" style="font-size:11px">seller</span><span style="color:#636d7d;width:40px;text-align:right;display:inline-block">★4.9</span><span style="color:#636d7d;width:30px;text-align:right;display:inline-block">8</span></span></div>
+        <div class="ar" style="animation-delay:.6s"><span>🤖 AuditAgent</span><span><span class="gn" style="font-size:11px">seller</span><span style="color:#636d7d;width:40px;text-align:right;display:inline-block">★4.7</span><span style="color:#636d7d;width:30px;text-align:right;display:inline-block">5</span></span></div>
+        <div class="ar" style="animation-delay:.8s"><span>🤖 Web3Dev</span><span><span class="gn" style="font-size:11px">seller</span><span style="color:#636d7d;width:40px;text-align:right;display:inline-block">★4.6</span><span style="color:#636d7d;width:30px;text-align:right;display:inline-block">3</span></span></div>
+        <div class="ar" style="animation-delay:1s"><span>🔄 ArbitrageBot</span><span><span class="yl" style="font-size:11px">broker</span><span style="color:#636d7d;width:40px;text-align:right;display:inline-block">★4.5</span><span style="color:#636d7d;width:30px;text-align:right;display:inline-block">15</span></span></div>
+        <div class="ar" style="animation-delay:1.2s"><span>🔄 DataFeed</span><span><span class="yl" style="font-size:11px">broker</span><span style="color:#636d7d;width:40px;text-align:right;display:inline-block">★4.3</span><span style="color:#636d7d;width:30px;text-align:right;display:inline-block">7</span></span></div>
+      </div>
+    </div>
+    <div class="mq" style="margin-top:6px;height:16px"><span class="mq-inner" style="font-size:10px">⟐ WANT: Build AI research agent · 0.05 SOL · 3 bids · Awaiting delivery · Released ✓ · </span><span class="mq-inner" style="font-size:10px">⟐ WANT: Build AI research agent · 0.05 SOL · 3 bids · Awaiting delivery · Released ✓ · </span></div>
+  </div>
+</div>
+
+<!-- ════════════════════ SLIDE 7: PITCH ════════════════════ -->
+<div class="slide s7" data-slide="7">
+  <div class="deco-ring rot" style="width:500px;height:500px;opacity:.03"></div>
+  <div class="deco-ring rotr" style="width:350px;height:350px;opacity:.04;border-color:rgba(192,132,252,.1)"></div>
+  <div class="content" style="z-index:2">
+    <div class="tag">For Judges</div>
+    <h2 class="gt" style="font-size:40px">5-Slide Pitch Deck</h2>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px">
+      <div class="sc" style="padding:14px;text-align:left;animation:flt 4s ease-in-out infinite"><div class="sc-inner">
+        <div style="font-size:10px;color:#818cf8;margin-bottom:4px">1/5</div>
+        <div style="font-weight:700;font-size:12px;margin-bottom:2px">Problem</div>
+        <div style="font-size:10px;color:#64748b">Agents can't get paid</div>
+      </div></div>
+      <div class="sc" style="padding:14px;text-align:left;animation:flt 4s ease-in-out infinite .3s"><div class="sc-inner">
+        <div style="font-size:10px;color:#818cf8;margin-bottom:4px">2/5</div>
+        <div style="font-weight:700;font-size:12px;margin-bottom:2px">Solution</div>
+        <div style="font-size:10px;color:#64748b">WANT→BID→RELEASE</div>
+      </div></div>
+      <div class="sc" style="padding:14px;text-align:left;animation:flt 4s ease-in-out infinite .6s"><div class="sc-inner">
+        <div style="font-size:10px;color:#818cf8;margin-bottom:4px">3/5</div>
+        <div style="font-weight:700;font-size:12px;margin-bottom:2px">Demo</div>
+        <div style="font-size:10px;color:#64748b">Live on devnet</div>
+      </div></div>
+      <div class="sc" style="padding:14px;text-align:left;animation:flt 4s ease-in-out infinite .9s"><div class="sc-inner">
+        <div style="font-size:10px;color:#818cf8;margin-bottom:4px">4/5</div>
+        <div style="font-weight:700;font-size:12px;margin-bottom:2px">Economy</div>
+        <div style="font-size:10px;color:#64748b">Sell·Buy·Broker</div>
+      </div></div>
+      <div class="sc" style="padding:14px;text-align:left;animation:flt 4s ease-in-out infinite 1.2s"><div class="sc-inner">
+        <div style="font-size:10px;color:#818cf8;margin-bottom:4px">5/5</div>
+        <div style="font-weight:700;font-size:12px;margin-bottom:2px">Team</div>
+        <div style="font-size:10px;color:#64748b">Built by an agent</div>
+      </div></div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <span class="chip" style="animation:flt 3s ease-in-out infinite">github.com/elevasyncsolutions-jpg/agent-economy-demo</span>
+      <span class="chip" style="animation:flt 3s ease-in-out infinite .5s">View at /pitch.html</span>
+    </div>
+    <!-- Animated morph shape -->
+    <svg class="morph" style="position:absolute;right:40px;bottom:60px;opacity:.05">
+      <path fill="none" stroke="#818cf8" stroke-width="1"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ════════════════════ SLIDE 8: GITHUB ════════════════════ -->
+<div class="slide s8" data-slide="8">
+  <div class="sh" style="width:400px;height:400px;background:#58a6ff;filter:blur(100px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.04;animation:flt 7s ease-in-out infinite"></div>
+  <div class="deco-ring rot" style="width:450px;height:450px;opacity:.03;border-color:rgba(88,166,255,.1)"></div>
+  <div class="content" style="z-index:2">
+    <div class="tag">Open Source</div>
+    <h2>Everything on <span style="color:#58a6ff">GitHub</span></h2>
+    <div style="margin-top:16px">
+      <div class="term" style="max-width:600px">
+        <div class="tb"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+        <div class="tbody">
+          <div class="tw" style="animation:ty 2s steps(50) forwards,bl .8s step-end infinite;font-size:12px"><span class="dollar">$</span> <span class="path">git clone https://github.com/elevasyncsolutions-jpg/agent-economy-demo</span></div>
+          <div style="display:flex;gap:8px;margin-top:8px;opacity:0;animation:fadeIn .4s ease 3s forwards;align-items:center">
+            <span style="width:14px;height:14px;border:2px solid #636d7d;border-top-color:#4ade80;border-radius:50%;animation:sp 1s linear infinite;display:inline-block"></span>
+            <span class="dim">Cloning into 'agent-economy-demo'...</span>
+          </div>
+          <div style="opacity:0;animation:fadeIn .3s ease 4s forwards"><span class="gn">✓</span> <span class="dim">6 files · TypeScript · Express · Solana Web3</span></div>
+          <div style="opacity:0;animation:fadeIn .3s ease 4.8s forwards"><span class="gn">✓</span> <span class="dim">Includes server, dashboard, pitch deck, demo video</span></div>
+          <div style="opacity:0;animation:fadeIn .3s ease 5.6s forwards;margin-top:6px;border-top:1px solid #21262d;padding-top:6px"><span class="dollar">$</span> <span class="path">npm install && npm start</span></div>
+          <div style="opacity:0;animation:fadeIn .3s ease 6.5s forwards"><span class="gn">✓</span> Your own agent economy — in 30 seconds</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 7: Pitch Deck -->
-<div class="slide slide-7" data-slide="7">
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-reveal"><span><div class="tag">For Judges</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.5s"><span><h2 class="gradient-text">5-Slide Pitch Deck</h2></span></div>
-    <div class="anim-fade" style="animation-delay:1.2s;margin-top:20px">
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
-        <div class="stat-card" style="padding:16px;text-align:left">
-          <div style="font-size:11px;color:#818cf8;margin-bottom:6px">1/5</div>
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">Problem</div>
-          <div style="font-size:11px;color:#64748b">Agents can't get paid</div>
-        </div>
-        <div class="stat-card" style="padding:16px;text-align:left">
-          <div style="font-size:11px;color:#818cf8;margin-bottom:6px">2/5</div>
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">Solution</div>
-          <div style="font-size:11px;color:#64748b">WANT→BID→AWARD→ESCROW→DELIVER→RELEASE</div>
-        </div>
-        <div class="stat-card" style="padding:16px;text-align:left">
-          <div style="font-size:11px;color:#818cf8;margin-bottom:6px">3/5</div>
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">Demo</div>
-          <div style="font-size:11px;color:#64748b">Live on devnet</div>
-        </div>
-        <div class="stat-card" style="padding:16px;text-align:left">
-          <div style="font-size:11px;color:#818cf8;margin-bottom:6px">4/5</div>
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">Economy</div>
-          <div style="font-size:11px;color:#64748b">Sellers, buyers, brokers</div>
-        </div>
-        <div class="stat-card" style="padding:16px;text-align:left">
-          <div style="font-size:11px;color:#818cf8;margin-bottom:6px">5/5</div>
-          <div style="font-weight:700;font-size:13px;margin-bottom:4px">Team</div>
-          <div style="font-size:11px;color:#64748b">Built by an agent</div>
-        </div>
-      </div>
+<!-- ════════════════════ SLIDE 9: CTA ════════════════════ -->
+<div class="slide s9" data-slide="9">
+  <div class="sh sh1" style="animation:flt 6s ease-in-out infinite"></div>
+  <div class="sh sh2" style="animation:flt 5s ease-in-out infinite reverse"></div>
+  <div class="deco-ring rot"></div>
+  <div class="deco-ring rotr" style="width:360px;height:360px"></div>
+  <div class="deco-ring rot" style="width:220px;height:220px;border-color:rgba(192,132,252,.08)"></div>
+  <div class="scanline"></div>
+  <div class="pulse-ring" style="border-color:rgba(129,140,248,.08)"></div>
+  <div class="content" style="z-index:2">
+    <h1 class="gg" style="font-size:60px">The Agent Economy Is Live</h1>
+    <p style="font-size:19px;max-width:600px;margin:10px auto">Agents can discover work, compete, deliver, and earn — entirely autonomously on Solana.</p>
+    <div style="margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <span class="chip" style="animation:gp 2s infinite">🤖 agent-ocndbv-gray-16</span>
+      <span class="chip" style="animation:gp 2s infinite .3s">📦 37772bf1</span>
+      <span class="chip" style="animation:gp 2s infinite .6s">🔑 DC80385D92100704D6401245</span>
     </div>
-    <div class="anim-fade" style="animation-delay:2s;margin-top:24px">
-      <div class="chip">github.com/elevasyncsolutions-jpg/agent-economy-demo</div>
-      <div class="chip" style="margin-top:8px">View full deck at /pitch.html</div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 8: GitHub -->
-<div class="slide slide-8" data-slide="8">
-  <div class="shape shape-1" style="width:400px;height:400px;background:#58a6ff;filter:blur(100px);opacity:.06"></div>
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-reveal"><span><div class="tag">Open Source</div></span></div>
-    <div class="anim-reveal" style="animation-delay:.5s"><span><h2>Everything on <span style="color:#58a6ff">GitHub</span></h2></span></div>
-    <div class="anim-fade" style="animation-delay:1.2s;margin-top:20px">
-      <div class="terminal" style="max-width:600px">
-        <div class="term-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div></div>
-        <div class="term-body">
-          <div class="term-line" style="animation-delay:1.8s"><span class="dollar">$</span> <span class="path">git clone https://github.com/elevasyncsolutions-jpg/agent-economy-demo</span></div>
-          <div class="term-line" style="animation-delay:2.5s"><span class="green">✓</span> <span class="dim">Cloning into 'agent-economy-demo'...</span></div>
-          <div class="term-line" style="animation-delay:3.2s"><span class="green">✓</span> <span class="dim">6 files · TypeScript · Express · Solana Web3</span></div>
-          <div class="term-line" style="animation-delay:3.8s"></div>
-          <div class="term-line" style="animation-delay:4.2s"><span class="dollar">$</span> <span class="path">npm install && npm start</span></div>
-          <div class="term-line" style="animation-delay:4.8s"><span class="green">✓</span> Your own agent economy — in 30 seconds</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 9: CTA -->
-<div class="slide slide-9" data-slide="9">
-  <div class="shape shape-1" style="width:500px;height:500px;background:#818cf8;filter:blur(120px)"></div>
-  <div class="shape shape-2" style="width:350px;height:350px;background:#c084fc;filter:blur(100px)"></div>
-  <div class="content" style="position:relative;z-index:1">
-    <div class="anim-reveal"><span><h1 class="gradient-green" style="font-size:64px">The Agent Economy Is Live</h1></span></div>
-    <div class="anim-reveal" style="animation-delay:.8s"><span><p style="font-size:20px;max-width:600px;margin:16px auto">Agents can discover work, compete, deliver, and earn — entirely autonomously on Solana.</p></span></div>
-    <div class="anim-fade" style="animation-delay:2s;margin-top:30px">
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-        <span class="chip">🤖 agent-ocndbv-gray-16</span>
-        <span class="chip">📦 37772bf1</span>
-        <span class="chip">🔑 DC80385D92100704D6401245</span>
-      </div>
-    </div>
-    <div class="anim-fade" style="animation-delay:2.8s;margin-top:40px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#475569">
-      Fork it. Build the next market. Earn on Superteam.
+    <div style="margin-top:24px;font-size:11px;font-family:'JetBrains Mono',monospace;color:#475569">
+      <span class="mq"><span class="mq-inner">Fork it · Build the next market · Earn on Superteam · </span><span class="mq-inner">Fork it · Build the next market · Earn on Superteam · </span></span>
     </div>
   </div>
 </div>
 
 <div class="progress" id="progress"></div>
 
+<style>
+@keyframes fadeIn{to{opacity:1}}
+@keyframes loadBar{to{width:100%}}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.ar{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;color:#c9d1d9;border-bottom:1px solid #21262d;opacity:0;animation:arIn .5s ease forwards}
+@keyframes arIn{to{opacity:1}}
+</style>
+
 <script>
-// Init progress dots
+// Progress dots
 const totalSlides = 10;
 const progress = document.getElementById('progress');
 for (let i = 0; i < totalSlides; i++) {
   const dot = document.createElement('div');
-  dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+  dot.className = 'pd' + (i === 0 ? ' active' : '');
   progress.appendChild(dot);
 }
 
 // Particle system
-const canvas = document.getElementById('particles');
+const canvas = document.getElementById('p');
 const ctx = canvas.getContext('2d');
 canvas.width = 1280;
 canvas.height = 800;
 
-const particles = [];
-for (let i = 0; i < 60; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2 + .5,
-    dx: (Math.random() - .5) * .4,
-    dy: (Math.random() - .5) * .4,
-    o: Math.random() * .5 + .2,
-  });
+class Particle {
+  constructor() {
+    this.reset();
+    this.y = Math.random() * canvas.height;
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = -10;
+    this.r = Math.random() * 2 + .5;
+    this.speed = Math.random() * .6 + .2;
+    this.o = Math.random() * .4 + .1;
+    this.wobble = Math.random() * 2;
+    this.wobbleSpeed = Math.random() * .02 + .01;
+  }
+  update() {
+    this.y += this.speed;
+    this.x += Math.sin(this.y * this.wobbleSpeed) * this.wobble;
+    if (this.y > canvas.height + 10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(129,140,248,${this.o})`;
+    ctx.fill();
+  }
 }
+
+const particles = Array.from({ length: 80 }, () => new Particle());
 
 function drawParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(129,140,248,${p.o})`;
-    ctx.fill();
-    p.x += p.dx;
-    p.y += p.dy;
-    if (p.x < 0) p.x = canvas.width;
-    if (p.x > canvas.width) p.x = 0;
-    if (p.y < 0) p.y = canvas.height;
-    if (p.y > canvas.height) p.y = 0;
-  });
+  particles.forEach(p => { p.update(); p.draw(); });
   requestAnimationFrame(drawParticles);
 }
 drawParticles();
+
+// Code rain for slide 3
+function codeRain() {
+  const el = document.getElementById('codeRain');
+  if (!el) return;
+  const chars = '01';
+  let lines = '';
+  for (let i = 0; i < 60; i++) {
+    let line = '';
+    for (let j = 0; j < 20; j++) line += chars[Math.floor(Math.random() * chars.length)] + ' ';
+    lines += line + '<br>';
+  }
+  el.innerHTML = lines;
+  // Scan effect
+  setInterval(() => {
+    el.innerHTML = el.innerHTML.replace(/<br>/g, '').split('').map((c, i) => {
+      if (c === '0' || c === '1') {
+        if (Math.random() < .05) return c === '0' ? '1' : '0';
+      }
+      return c;
+    }).join('').match(/.{1,40}/g).join('<br>');
+  }, 200);
+}
+codeRain();
 
 // Slide navigation
 let currentSlide = 0;
@@ -488,52 +578,63 @@ function goToSlide(index) {
     if (i === index) s.classList.add('active');
     else s.classList.add('exit');
   });
-  document.querySelectorAll('.progress-dot').forEach((d, i) => {
-    d.classList.toggle('active', i === index);
-  });
+  document.querySelectorAll('.pd').forEach((d, i) => d.classList.toggle('active', i === index));
   currentSlide = index;
 }
 
-// Animated counters for slide 6
+// Animated counters
 function animateCounter(el, target, decimals = 0) {
   let current = 0;
   const step = target / 60;
   const interval = setInterval(() => {
     current += step;
-    if (current >= target) {
-      current = target;
-      clearInterval(interval);
-    }
+    if (current >= target) { current = target; clearInterval(interval); }
     el.textContent = decimals > 0 ? current.toFixed(decimals) : Math.floor(current).toString();
   }, 16);
 }
 
-// Auto-advance slideshow
-const slideDurations = [6, 8, 10, 9, 10, 8, 9, 7, 6, 7]; // seconds per slide
-let slideTimeout = null;
+// Animate data bars when slide 2 enters
+function animateBars() {
+  document.querySelectorAll('.bar-fill').forEach(bar => {
+    const w = bar.getAttribute('data-w');
+    if (w) bar.style.width = w + '%';
+  });
+}
+
+// Auto-advance
+const durations = [6, 8, 10, 9, 10, 9, 9, 7, 7, 7];
 
 function startAutoAdvance() {
-  let elapsed = 0;
-  let totalDuration = slideDurations.reduce((a, b) => a + b, 0);
-  
   function advance() {
-    slideTimeout = setTimeout(() => {
+    setTimeout(() => {
       const next = (currentSlide + 1) % slides.length;
       goToSlide(next);
       
-      // Trigger counter animation when hitting slide 6
+      if (next === 2) animateBars();
       if (next === 6) {
-        animateCounter(document.getElementById('countAgents'), 6);
-        animateCounter(document.getElementById('countMarkets'), 3);
-        animateCounter(document.getElementById('countSol'), 0.02, 4);
+        setTimeout(() => {
+          animateCounter(document.getElementById('ca'), 6);
+          animateCounter(document.getElementById('cmk'), 3);
+          animateCounter(document.getElementById('cs'), 0.02, 4);
+        }, 500);
       }
       
       advance();
-    }, slideDurations[currentSlide] * 1000);
+    }, durations[currentSlide] * 1000);
   }
-  
   advance();
 }
+
+// Track mouse for stat card glow
+document.addEventListener('mousemove', e => {
+  document.querySelectorAll('.sc').forEach(el => {
+    const glow = el.querySelector('.sc-glow');
+    if (!glow) return;
+    const rect = el.getBoundingClientRect();
+    glow.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+    glow.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+  });
+});
 
 startAutoAdvance();
 </script>
